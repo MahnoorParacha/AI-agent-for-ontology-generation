@@ -1,0 +1,148 @@
+{
+  "doc_id": "sample_company_txt",
+  "entities": [
+    {
+      "id": "e1",
+      "type": "Org",
+      "label": "Acme Robotics",
+      "attrs": {
+        "headquarters": "Austin, Texas"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "Person",
+      "label": "Maya Lin",
+      "attrs": {
+        "title": "CEO"
+      }
+    },
+    {
+      "id": "e3",
+      "type": "Concept",
+      "label": "Board of Directors",
+      "attrs": {}
+    },
+    {
+      "id": "e4",
+      "type": "Concept",
+      "label": "Cloud Platform",
+      "attrs": {}
+    },
+    {
+      "id": "e5",
+      "type": "Concept",
+      "label": "Hardware Engineering",
+      "attrs": {}
+    },
+    {
+      "id": "e6",
+      "type": "Person",
+      "label": "Dr. Omar Hassan",
+      "attrs": {}
+    },
+    {
+      "id": "e7",
+      "type": "Org",
+      "label": "NovaChips",
+      "attrs": {}
+    },
+    {
+      "id": "e8",
+      "type": "Concept",
+      "label": "Atlas-2 Sensor",
+      "attrs": {}
+    },
+    {
+      "id": "e9",
+      "type": "Person",
+      "label": "Priya Nair",
+      "attrs": {}
+    },
+    {
+      "id": "e10",
+      "type": "Document",
+      "label": "Q4 Security Policy",
+      "attrs": {}
+    },
+    {
+      "id": "e11",
+      "type": "Org",
+      "label": "Apex Logistics",
+      "attrs": {}
+    },
+    {
+      "id": "e12",
+      "type": "Document",
+      "label": "Supply Agreement",
+      "attrs": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "e2",
+      "target": "e1",
+      "relation": "leads"
+    },
+    {
+      "source": "e2",
+      "target": "e3",
+      "relation": "reports_to"
+    },
+    {
+      "source": "e2",
+      "target": "e4",
+      "relation": "oversees"
+    },
+    {
+      "source": "e2",
+      "target": "e5",
+      "relation": "oversees"
+    },
+    {
+      "source": "e6",
+      "target": "e5",
+      "relation": "leads"
+    },
+    {
+      "source": "e6",
+      "target": "e7",
+      "relation": "collaborates_with"
+    },
+    {
+      "source": "e6",
+      "target": "e8",
+      "relation": "works_on"
+    },
+    {
+      "source": "e7",
+      "target": "e8",
+      "relation": "supplies"
+    },
+    {
+      "source": "e9",
+      "target": "e4",
+      "relation": "manages"
+    },
+    {
+      "source": "e9",
+      "target": "e10",
+      "relation": "authored"
+    },
+    {
+      "source": "e11",
+      "target": "e12",
+      "relation": "signed"
+    },
+    {
+      "source": "e12",
+      "target": "e1",
+      "relation": "involves"
+    },
+    {
+      "source": "e11",
+      "target": "e8",
+      "relation": "deploys"
+    }
+  ]
+}
