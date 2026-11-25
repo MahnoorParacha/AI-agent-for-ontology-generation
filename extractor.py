@@ -1,9 +1,7 @@
-import io
 import json
 import os
 import re
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -13,42 +11,10 @@ import pymupdf
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".xlsx", ".csv", ".txt"}
 
-
-def extract_text(source: "str | Path | bytes", filename: str = "") -> str:
-    """Extract raw text from a file path, Path object, or raw bytes.
-
-    Accepts:
-        extract_text(file_path)                   # Mahnoor's CLI usage
-        extract_text(file_bytes, filename)         # Seerat's Streamlit UI usage
-    """
-    if isinstance(source, (str, Path)):
-        path = Path(source)
-        if not path.is_file():
-            raise FileNotFoundError(f"File not found: {path}")
-        return _extract_from_path(path)
-
-    # bytes branch — write to a temp file so pymupdf / docx can open it
-    if not filename:
-        raise ValueError("filename is required when source is bytes.")
-    ext = Path(filename).suffix.lower()
-    if ext not in SUPPORTED_EXTENSIONS:
-        raise ValueError(
-            f"Unsupported file type '{ext}'. Allowed: PDF, DOCX, XLSX, CSV, TXT."
-        )
-    with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as tmp:
-        tmp.write(source)
-        tmp_path = Path(tmp.name)
-    try:
-        return _extract_from_path(tmp_path)
-    finally:
-        tmp_path.unlink(missing_ok=True)
-
-
-def _extract_from_path(path: Path) -> str:
-    """Internal helper: extract text given an existing file Path."""
-    ext = path.suffix.lower()
+def extract_text(file_path: str | Path) -> str:
+    """Extract raw text from .pdf, .docx, .txt, .xlsx, or .csv files."""
+    path = Path(file_path)
     if not path.is_file():
         raise FileNotFoundError(f"File not found: {path}")
 
@@ -86,16 +52,6 @@ def _extract_from_path(path: Path) -> str:
     raise ValueError(
         f"Unsupported file format '{ext}'. Supported: .pdf, .docx, .txt, .xlsx, .csv"
     )
-
-
-def extract_ontology(doc_id: str, text: str) -> dict[str, Any]:
-    """Wrapper used by app.py: extract ontology JSON and add doc_id."""
-    result = text_to_ontology(text)
-    result["doc_id"] = doc_id
-    # Ensure attrs field on every entity (models.py requires it)
-    for entity in result.get("entities", []):
-        entity.setdefault("attrs", {})
-    return result
 
 
 def text_to_ontology(text: str) -> dict[str, Any]:
